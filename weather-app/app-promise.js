@@ -7,7 +7,8 @@ const argv = yargs
         demand: true,
         alias:'address',
         describe: 'address to fetch weather for',
-        string: true
+        string: true,
+        default: 'aruba'
     }
 })
 .help()
@@ -31,7 +32,12 @@ axios.get(geocodeUrl).then( (response) => {
 }).then((response) => {
     var temperature = response.data.currently.temperature;
     var apparentTemperature = response.data.currently.apparentTemperature;
+    var temperatureMin = response.data.daily.data[0].temperatureMin;
+    var temperatureMax = response.data.daily.data[0].temperatureMax;
+    var summary = response.data.daily.summary;
     console.log(`It's currently ${temperature}. It feels like ${apparentTemperature}.`)
+    console.log(`Min Temperature: ${temperatureMin}. Max ${temperatureMax}.`)
+    console.log(summary);
 }).catch((e) => {
     if(e.code === 'ENOTFOUND'){
         console.log('Unable to Connect');
